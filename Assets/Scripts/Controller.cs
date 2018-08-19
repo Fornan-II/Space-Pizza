@@ -20,8 +20,8 @@ public class Controller : MonoBehaviour {
         {
             possessedPawn.HandleHorizontal(Input.GetAxis("Horizontal"));
             possessedPawn.HandleVertical(Input.GetAxis("Vertical"));
-            possessedPawn.HandleLeftShift(Input.GetButtonDown("Fire1"));
-            possessedPawn.HandleSpacebar(Input.GetButtonDown("Fire2"));
+            possessedPawn.HandleLeftShift(Input.GetButton("Fire1"));
+            possessedPawn.HandleSpacebar(Input.GetButton("Fire2"));
 
             Vector3 mousePos = Input.mousePosition;
             mousePos.z = possessedPawn.transform.position.z;
