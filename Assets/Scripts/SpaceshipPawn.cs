@@ -71,8 +71,8 @@ public class SpaceshipPawn : Pawn {
 
     protected virtual void RotateShip()
     {
-        float vecDot = Vector3.SignedAngle(Vector3.up, _desiredDirection, Vector3.forward);
-        Vector3 currentRotation = new Vector3(0.0f, 0.0f, vecDot - 90.0f);
+        float newRotation = Vector3.SignedAngle(Vector3.up, _desiredDirection, Vector3.forward);
+        Vector3 currentRotation = new Vector3(0.0f, 0.0f, newRotation);
         transform.rotation = Quaternion.Euler(currentRotation);
     }
 
@@ -85,7 +85,7 @@ public class SpaceshipPawn : Pawn {
 
         if(_isBoosting)
         {
-            Vector2 newVelocity = Vector2.Lerp(transform.right * -1f * boostForce, _rb.velocity, inertia);
+            Vector2 newVelocity = Vector2.Lerp(transform.up * boostForce, _rb.velocity, inertia);
             _rb.velocity = newVelocity;
         }
         else if (_isBraking)
