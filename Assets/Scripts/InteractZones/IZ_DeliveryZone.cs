@@ -5,25 +5,46 @@ using UnityEngine;
 public class IZ_DeliveryZone : InteractZone {
 
     public int orderID = -1;
+    protected bool _awaitingDelivery = true;
 
     protected override void HasSuccessfullyInteracted()
     {
-        for(int i = 0; i < GameManager.Self.ActiveDeliveries.Count; i++)
+        if(_awaitingDelivery)
         {
-            Pizza p = GameManager.Self.ActiveDeliveries[i];
-            if (p.NumericID == orderID)
+            for (int i = 0; i < GameManager.Self.ActiveDeliveries.Count; i++)
             {
-                GameManager.Self.PlayerScore += p.Value;
-                GameManager.Self.TotalDeliveries++;
-                GameManager.Self.ActiveDeliveries.Remove(p);
-                i--;
-                DeliveryMade();
+                Pizza p = GameManager.Self.ActiveDeliveries[i];
+                if (p.NumericID == orderID)
+                {
+                    IZ_PlanetZone pz = p.DestinationPlanet.GetComponent<IZ_PlanetZone>();
+                    if(pz)
+                    {
+                        pz.activeDeliveryPOIs.Remove(this);
+                    }
+
+                    GameManager.Self.PlayerScore += p.Value;
+                    GameManager.Self.playerHUD.UpdateScore();
+                    GameManager.Self.TotalDeliveries++;
+                    GameManager.Self.playerHUD.RemoveDeliveryUI(p);
+                    GameManager.Self.ActiveDeliveries.Remove(p);
+                    i--;
+                    DeliveryMade();
+                }
             }
         }
+        
     }
 
     protected virtual void DeliveryMade()
     {
-        Destroy(gameObject, 1.0f);
+        if(GameManager.Self.ActiveDeliveries.Count <= 0)
+        {
+            SpaceshipPawn sp = (SpaceshipPawn)GameManager.Self.player.possessedPawn;
+            if (sp)
+            {
+                sp.SetHasPizza(false);
+            }
+        }
+        Destroy(gameObject);
     }
 }

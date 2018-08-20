@@ -6,8 +6,14 @@ public class GameManager : MonoBehaviour {
 
     protected static GameManager _self;
     public static GameManager Self { get { return _self; } }
+    public HUD playerHUD;
+    public Controller player;
     protected static float pizzaValueDecayInterval = 1.0f;
     public bool runTimers = true;
+
+    public float TotalShiftTime = 180.0f;
+    protected float _elapsedShiftTime = 0.0f;
+    public float TimeRemaining { get { return TotalShiftTime - _elapsedShiftTime; } }
 
     //public UI GameUI;
 
@@ -33,10 +39,20 @@ public class GameManager : MonoBehaviour {
 
     protected virtual void Start()
     {
+        //DontDestroyOnLoad(gameObject);
         StartCoroutine(PizzaValueDecayTimer());
+        StartCoroutine(ShiftTimer());
     }
 
-    IEnumerator PizzaValueDecayTimer()
+    protected virtual void EndGame()
+    {
+        Debug.Log("Game Ended!");
+        player.possessedPawn = null;
+        playerHUD.SetMessage(true, "Final Score: ", "" + PlayerScore);
+        StartCoroutine(ReturnToMainMenuIn(5.0f));
+    }
+
+    protected virtual IEnumerator PizzaValueDecayTimer()
     {
         float timePassed = 0.0f;
         while (true)
@@ -48,6 +64,7 @@ public class GameManager : MonoBehaviour {
                     foreach(Pizza p in ActiveDeliveries)
                     {
                         p.DecayValue();
+                        playerHUD.UpdateDeliveryUI();
                     }
                     timePassed = 0.0f;
                 }
@@ -55,5 +72,28 @@ public class GameManager : MonoBehaviour {
             }
             yield return null;
         }
+    }
+
+    protected virtual IEnumerator ShiftTimer()
+    {
+        while(_elapsedShiftTime < TotalShiftTime)
+        {
+            yield return null;
+            _elapsedShiftTime += Time.deltaTime * Time.timeScale;
+            playerHUD.UpdateShiftTimer(TimeRemaining);
+        }
+        EndGame();
+    }
+
+    protected virtual IEnumerator ReturnToMainMenuIn(float seconds)
+    {
+        float elapsedTime = 0.0f;
+        while(elapsedTime < seconds)
+        {
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        MenuScript ms = FindObjectOfType<MenuScript>();
+        ms.ReturnToMainMenu();
     }
 }

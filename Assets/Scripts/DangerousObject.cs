@@ -7,7 +7,8 @@ public class DangerousObject : MonoBehaviour {
     protected Collider2D _col;
 
     public float DamageAmount = 1.0f;
-    public float KnockbackMultiplier = 1.0f;
+    public float KnockbackMultiplier = 20.0f;
+    public float rotateSpeed = 30.0f;
 
     protected static float damageCoolDown = 1.0f;
     protected bool canDamage = true;
@@ -20,6 +21,11 @@ public class DangerousObject : MonoBehaviour {
         {
             Debug.LogError(name + "'s DangerousObject does not have a collider!");
         }
+    }
+
+    protected virtual void Update()
+    {
+        transform.Rotate(Vector3.forward, rotateSpeed * Time.deltaTime);
     }
 
     private void OnCollisionStay2D(Collision2D collision)

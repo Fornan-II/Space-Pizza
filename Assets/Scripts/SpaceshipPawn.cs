@@ -12,6 +12,8 @@ public class SpaceshipPawn : Pawn {
     public float driftInertia = 1.0f;
     public float interactSpeedMaximum = 1.0f;
     public bool AbleToInteract { get { return _rb.velocity.sqrMagnitude < interactSpeedMaximum * interactSpeedMaximum;  } }
+    public Sprite shipNormal;
+    public Sprite shipWithPizza;
 
     //Member
     protected Rigidbody2D _rb;
@@ -19,6 +21,7 @@ public class SpaceshipPawn : Pawn {
     protected Vector3 _desiredDirection;
     protected bool _isBraking = false;
     protected bool _isBoosting = false;
+    protected ShipFire _sf;
     #endregion
 
     // Use this for initialization
@@ -29,6 +32,7 @@ public class SpaceshipPawn : Pawn {
         {
             Debug.LogError("No rigidbody found on pawn!");
         }
+        _sf = gameObject.GetComponentInChildren<ShipFire>();
     }
 
     protected virtual void FixedUpdate()
@@ -61,6 +65,7 @@ public class SpaceshipPawn : Pawn {
     public override void HandleSpacebar(bool value)
     {
         _isBoosting = value;
+        _sf.SetFireTo(value);
     }
 
     public override void HandleLeftShift(bool value)
@@ -144,5 +149,22 @@ public class SpaceshipPawn : Pawn {
         {
             p.Value -= (int)value;
         }
+    }
+
+    public virtual void SetHasPizza(bool state)
+    {
+        SpriteRenderer sr = gameObject.GetComponent<SpriteRenderer>();
+        if(sr)
+        {
+            if (state)
+            {
+                sr.sprite = shipWithPizza;
+            }
+            else
+            {
+                sr.sprite = shipNormal;
+            }
+        }
+        
     }
 }

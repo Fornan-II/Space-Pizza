@@ -29,12 +29,10 @@ public class Pizza {
     #region Constructors
     public Pizza()
     {
-        SelectRandomPlanet();
-
         _numericID = IDCounter;
         IDCounter++;
 
-        SetRandomValue();
+        Value = 0;
     }
 
     public Pizza(GameObject planet)
@@ -44,27 +42,15 @@ public class Pizza {
         _numericID = IDCounter;
         IDCounter++;
 
-        SetRandomValue();
+        Value = 0;
     }
 
     public Pizza(int value)
     {
-        SelectRandomPlanet();
-
         _numericID = IDCounter;
         IDCounter++;
 
-        _value = value;
-    }
-
-    public Pizza(int valMin, int valMax)
-    {
-        SelectRandomPlanet();
-
-        _numericID = IDCounter;
-        IDCounter++;
-
-        SetRandomValue(valMin, valMax);
+        Value = value;
     }
 
     public Pizza(GameObject planet, int value)
@@ -74,17 +60,7 @@ public class Pizza {
         _numericID = IDCounter;
         IDCounter++;
 
-        _value = value;
-    }
-
-    public Pizza(GameObject planet, int valMin, int valMax)
-    {
-        DestinationPlanet = planet;
-
-        _numericID = IDCounter;
-        IDCounter++;
-
-        SetRandomValue(valMin, valMax);
+        Value = value;
     }
     #endregion
 
@@ -92,7 +68,7 @@ public class Pizza {
     {
         //Select a planet
         GameObject[] planets = GameObject.FindGameObjectsWithTag("Planet");
-        int i = Random.Range(0, planets.Length - 1);
+        int i = Random.Range(0, planets.Length);
         DestinationPlanet = planets[i];
     }
 
