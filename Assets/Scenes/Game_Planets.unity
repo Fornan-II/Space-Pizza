@@ -142,7 +142,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f9c61b5c85f7324d87d27d6dd13d805, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DamageAmount: 1
+  DamageAmount: 10
   KnockbackMultiplier: 20
   rotateSpeed: 30
 --- !u!58 &18756752
@@ -1965,7 +1965,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f9c61b5c85f7324d87d27d6dd13d805, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DamageAmount: 1
+  DamageAmount: 10
   KnockbackMultiplier: 20
   rotateSpeed: 30
 --- !u!58 &671371942
@@ -2302,7 +2302,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f9c61b5c85f7324d87d27d6dd13d805, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DamageAmount: 1
+  DamageAmount: 10
   KnockbackMultiplier: 20
   rotateSpeed: 30
 --- !u!58 &809362921
@@ -2649,7 +2649,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f9c61b5c85f7324d87d27d6dd13d805, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DamageAmount: 1
+  DamageAmount: 10
   KnockbackMultiplier: 20
   rotateSpeed: 30
 --- !u!58 &1151182286
@@ -3319,7 +3319,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f9c61b5c85f7324d87d27d6dd13d805, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DamageAmount: 1
+  DamageAmount: 10
   KnockbackMultiplier: 20
   rotateSpeed: 30
 --- !u!58 &1269730352
@@ -6162,7 +6162,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f9c61b5c85f7324d87d27d6dd13d805, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DamageAmount: 1
+  DamageAmount: 10
   KnockbackMultiplier: 20
   rotateSpeed: 30
 --- !u!58 &2100473302
