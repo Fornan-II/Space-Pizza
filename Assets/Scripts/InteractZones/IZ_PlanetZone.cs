@@ -5,11 +5,12 @@ using UnityEngine;
 public class IZ_PlanetZone : InteractZone
 {
     public GameObject[] TileSet;
-    public int baseExpansiveness = 5;
+    public float expansivenessMultiplier = 1.3f;
     protected static Vector4 spawnBoundaries = new Vector4(500, 500, 1000, 1500);
 
     protected GameObject _seedRoom;
     public List<IZ_DeliveryZone> activeDeliveryPOIs = new List<IZ_DeliveryZone>();
+    protected bool _isGenerating = false;
 
     protected override void HasSuccessfullyInteracted()
     {
@@ -22,22 +23,27 @@ public class IZ_PlanetZone : InteractZone
                 pizzaForHere = true;
             }
         }
-        if(pizzaForHere)
+
+        if(pizzaForHere && !_isGenerating)
         {
             GameManager.Self.runTimers = false;
-            GameManager.Self.player.possessedPawn.transform.position = GenerateLevel((int)(1.3f * GameManager.Self.TotalDeliveries));
-            GameManager.Self.runTimers = true;
-            StartCoroutine(WaitForPlayerToFinishLevel());
+            StartCoroutine(GenerateLevel((int)(expansivenessMultiplier * GameManager.Self.TotalDeliveries)));
         }
     }
 
-    protected virtual Vector3 GenerateLevel(int expansiveness)
+    protected virtual IEnumerator GenerateLevel(int expansiveness)
     {
-        Debug.Log("New Planet");
+        //Generation Setup
+        GameManager.Self.runTimers = false;
+        _isGenerating = true;
+        Debug.Log("New planet generating");
+
+        //Generation Proper
         Vector3 spawnCoord = new Vector3(Mathf.Lerp(spawnBoundaries.x, spawnBoundaries.z, 0.5f), Mathf.Lerp(spawnBoundaries.y, spawnBoundaries.w, 0.5f), 0.0f);
         _seedRoom = Instantiate(TileSet[Random.Range(0, TileSet.Length)], spawnCoord, Quaternion.Euler(Vector3.zero));
         ProcRoom pr = _seedRoom.GetComponent<ProcRoom>();
-        List<POISpawn> POISpawns = pr.GenerateRoom(TileSet, spawnBoundaries, expansiveness);
+        List<POISpawn> POISpawns = new List<POISpawn>();
+        yield return pr.GenerateRoom(TileSet, spawnBoundaries, expansiveness, POISpawns);
 
         foreach(Pizza p in GameManager.Self.ActiveDeliveries)
         {
@@ -54,7 +60,11 @@ public class IZ_PlanetZone : InteractZone
             poi.GenerateAsDangerousObject();
         }
 
-        return spawnCoord;
+        //Post-Generation Actions;
+        GameManager.Self.player.possessedPawn.transform.position = spawnCoord;
+        GameManager.Self.runTimers = true;
+        StartCoroutine(WaitForPlayerToFinishLevel());
+        _isGenerating = false;
     }
 
     protected virtual IEnumerator WaitForPlayerToFinishLevel()
@@ -69,6 +79,5 @@ public class IZ_PlanetZone : InteractZone
         ProcRoom pr = _seedRoom.GetComponent<ProcRoom>();
         pr.DestroyRoom();
         GameManager.Self.runTimers = true;
-
     }
 }

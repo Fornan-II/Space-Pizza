@@ -48,8 +48,23 @@ public class GameManager : MonoBehaviour {
     {
         Debug.Log("Game Ended!");
         player.possessedPawn = null;
-        playerHUD.SetMessage(true, "Final Score: ", "" + PlayerScore);
-        StartCoroutine(ReturnToMainMenuIn(5.0f));
+        if (!ScoreManager.LoadScore())
+        {
+            ScoreManager.HighScore = PlayerScore;
+            ScoreManager.SaveScore();
+            playerHUD.SetMessage(true, "High Score! ", "" + PlayerScore);
+        }
+        else if(ScoreManager.HighScore < PlayerScore)
+        {
+            ScoreManager.HighScore = PlayerScore;
+            ScoreManager.SaveScore();
+            playerHUD.SetMessage(true, "High Score! ", "" + PlayerScore);
+        }
+        else
+        {
+            playerHUD.SetMessage(true, "Final Score: ", "" + PlayerScore);
+        }
+        StartCoroutine(WaitToReturnToMainMenu());
     }
 
     protected virtual IEnumerator PizzaValueDecayTimer()
@@ -79,18 +94,19 @@ public class GameManager : MonoBehaviour {
         while(_elapsedShiftTime < TotalShiftTime)
         {
             yield return null;
-            _elapsedShiftTime += Time.deltaTime * Time.timeScale;
-            playerHUD.UpdateShiftTimer(TimeRemaining);
+            if(runTimers)
+            {
+                _elapsedShiftTime += Time.deltaTime * Time.timeScale;
+                playerHUD.UpdateShiftTimer(TimeRemaining);
+            }
         }
         EndGame();
     }
 
-    protected virtual IEnumerator ReturnToMainMenuIn(float seconds)
+    protected virtual IEnumerator WaitToReturnToMainMenu()
     {
-        float elapsedTime = 0.0f;
-        while(elapsedTime < seconds)
+        while(!Input.anyKeyDown)
         {
-            elapsedTime += Time.deltaTime;
             yield return null;
         }
         MenuScript ms = FindObjectOfType<MenuScript>();

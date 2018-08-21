@@ -473,7 +473,7 @@ MonoBehaviour:
   - {fileID: 1717683512133554, guid: 97d9faf75ee0e044da05b7b2a5146cbf, type: 2}
   - {fileID: 1107021505031836, guid: ea7b47704c80d5b44aa6f47e225c9f97, type: 2}
   - {fileID: 1954036929726282, guid: b1dfc18ddc380724e9e03adb2a2e539f, type: 2}
-  baseExpansiveness: 7
+  expansivenessMultiplier: 1.3
   activeDeliveryPOIs: []
 --- !u!1 &177644962
 GameObject:
@@ -1112,7 +1112,7 @@ MonoBehaviour:
   - {fileID: 1523408984246548, guid: ddb99e23590c776478ffec43884fc967, type: 2}
   - {fileID: 1699460014531876, guid: cd157d3541a3dd849bb82115877d2843, type: 2}
   - {fileID: 1075068642012706, guid: be405c51dea0e5049ab36a84ce1cb8e9, type: 2}
-  baseExpansiveness: 5
+  expansivenessMultiplier: 1.1
   activeDeliveryPOIs: []
 --- !u!1001 &429621946
 Prefab:
@@ -3129,7 +3129,7 @@ MonoBehaviour:
   - {fileID: 1629664663792194, guid: b5f8cf34e0334714592ab906aba8d5fb, type: 2}
   - {fileID: 1610139136118870, guid: eec79b27148d8624a92f63cae7e525f7, type: 2}
   - {fileID: 1913034239616292, guid: b1e88ef5069e5e749b142a1c0e5fc94e, type: 2}
-  baseExpansiveness: 9
+  expansivenessMultiplier: 1.5
   activeDeliveryPOIs: []
 --- !u!114 &1233293317
 MonoBehaviour:
@@ -3487,7 +3487,7 @@ MonoBehaviour:
   - {fileID: 1699175436610394, guid: 2761e6ae724bf6e4fbfda5efbea7ec6c, type: 2}
   - {fileID: 1559676932624232, guid: a8ed9dcf572b4f0479434a6a0642e6f1, type: 2}
   - {fileID: 1662218240698834, guid: ee0864efa6bafa849abd9a46c840bb8a, type: 2}
-  baseExpansiveness: 3
+  expansivenessMultiplier: 0.9
   activeDeliveryPOIs: []
 --- !u!58 &1295019494
 CircleCollider2D:
@@ -3878,6 +3878,7 @@ GameObject:
   - component: {fileID: 1431457329}
   - component: {fileID: 1431457328}
   - component: {fileID: 1431457330}
+  - component: {fileID: 1431457331}
   m_Layer: 0
   m_Name: GameManager/Controller
   m_TagString: GameController
@@ -3929,6 +3930,101 @@ MonoBehaviour:
   ActiveDeliveries: []
   TotalDeliveries: 0
   PlayerScore: 0
+--- !u!82 &1431457331
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1431457327}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: afe018a543607b240ad2bb40b9042563, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1431763123
 GameObject:
   m_ObjectHideFlags: 0
