@@ -36,7 +36,6 @@ public class IZ_PlanetZone : InteractZone
         //Generation Setup
         GameManager.Self.runTimers = false;
         _isGenerating = true;
-        Debug.Log("New planet generating");
 
         //Generation Proper
         Vector3 spawnCoord = new Vector3(Mathf.Lerp(spawnBoundaries.x, spawnBoundaries.z, 0.5f), Mathf.Lerp(spawnBoundaries.y, spawnBoundaries.w, 0.5f), 0.0f);
@@ -61,7 +60,7 @@ public class IZ_PlanetZone : InteractZone
         }
 
         //Post-Generation Actions;
-        GameManager.Self.player.possessedPawn.transform.position = spawnCoord;
+        GameManager.Self.player.possessedPawn.transform.position = new Vector3(spawnCoord.x, spawnCoord.y, GameManager.Self.player.possessedPawn.transform.position.z);
         GameManager.Self.runTimers = true;
         StartCoroutine(WaitForPlayerToFinishLevel());
         _isGenerating = false;
@@ -75,7 +74,7 @@ public class IZ_PlanetZone : InteractZone
         }
 
         GameManager.Self.runTimers = false;
-        GameManager.Self.player.possessedPawn.transform.position = Vector3.zero;
+        GameManager.Self.player.possessedPawn.transform.position = new Vector3(0f, 0f, GameManager.Self.player.possessedPawn.transform.position.z);
         ProcRoom pr = _seedRoom.GetComponent<ProcRoom>();
         pr.DestroyRoom();
         GameManager.Self.runTimers = true;

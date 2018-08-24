@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour {
     public static GameManager Self { get { return _self; } }
     public HUD playerHUD;
     public Controller player;
+    public PizzaIndicator indicator;
     protected static float pizzaValueDecayInterval = 1.0f;
     public bool runTimers = true;
 
@@ -46,7 +47,7 @@ public class GameManager : MonoBehaviour {
 
     protected virtual void EndGame()
     {
-        Debug.Log("Game Ended!");
+        //Debug.Log("Game Ended!");
         player.possessedPawn = null;
         if (!ScoreManager.LoadScore())
         {

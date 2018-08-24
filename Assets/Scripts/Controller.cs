@@ -9,6 +9,9 @@ public class Controller : MonoBehaviour {
 
     protected CameraManager mainCamManager;
 
+    protected enum InputType { MOUSE_AND_KEYBOARD, GAMEPAD }
+    protected InputType activeInputType = InputType.MOUSE_AND_KEYBOARD;
+
 	// Use this for initialization
 	void Start () {
         mainCamManager = Camera.main.GetComponent<CameraManager>();
@@ -18,8 +21,16 @@ public class Controller : MonoBehaviour {
 	void Update () {
         if(possessedPawn)
         {
-            possessedPawn.HandleHorizontal(Input.GetAxis("Horizontal"));
-            possessedPawn.HandleVertical(Input.GetAxis("Vertical"));
+            HandleInput();
+            mainCamManager.TrackingPosition = possessedPawn.transform.position;
+            Debug.Log(activeInputType);
+        }
+    }
+
+    protected virtual void HandleInput()
+    {
+        if (activeInputType == InputType.MOUSE_AND_KEYBOARD)
+        {
             possessedPawn.HandleLeftShift(Input.GetButton("Fire1"));
             possessedPawn.HandleSpacebar(Input.GetButton("Fire2"));
 
@@ -27,7 +38,55 @@ public class Controller : MonoBehaviour {
             mousePos.z = possessedPawn.transform.position.z;
             possessedPawn.HandleMousePosition(Camera.main.ScreenToWorldPoint(mousePos));
 
-            mainCamManager.TrackingPosition = possessedPawn.transform.position;
+            if(Input.GetAxisRaw("Horizontal") > float.Epsilon || Input.GetAxisRaw("Vertical") > float.Epsilon)
+            {
+                activeInputType = InputType.GAMEPAD;
+            }
         }
+        else if(activeInputType == InputType.GAMEPAD)
+        {
+            possessedPawn.HandleLeftShift(Input.GetButton("Fire1"));
+            possessedPawn.HandleSpacebar(Input.GetButton("Fire2"));
+
+            Vector2 locationToPointAt = possessedPawn.transform.position;
+            Vector2 inputVector = new Vector2(Input.GetAxisRaw("Horizontal"), -1f * Input.GetAxisRaw("Vertical"));
+            if(inputVector.sqrMagnitude > float.Epsilon)
+            {
+                possessedPawn.HandleMousePosition(locationToPointAt + GetProperInputVector(inputVector));
+            }
+
+            if(Input.GetAxis("Mouse X") > float.Epsilon || Input.GetAxis("Mouse Y") > float.Epsilon)
+            {
+                activeInputType = InputType.MOUSE_AND_KEYBOARD;
+            }
+        }
+    }
+
+    protected virtual Vector2 GetProperInputVector(Vector2 i)
+    {
+        Vector2 inputVector = new Vector2(i.x, i.y);
+        Vector2 maxedVector = Vector2.one;
+
+        //Find maximum value 
+        if (Mathf.Abs(i.x) > Mathf.Abs(i.y))
+        {
+            maxedVector.Set(1.0f, i.y / i.x);
+            if (i.x < 0.0f)
+            {
+                maxedVector.x = -1.0f;
+            }
+        }
+        else if (Mathf.Abs(i.x) < Mathf.Abs(i.y))
+        {
+            maxedVector.Set(i.x / i.y, 1.0f);
+            if (i.y < 0.0f)
+            {
+                maxedVector.y = -1.0f;
+            }
+        }
+
+        inputVector /= maxedVector.magnitude;
+
+        return new Vector2(inputVector.x, inputVector.y);
     }
 }

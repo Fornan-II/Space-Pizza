@@ -11,6 +11,7 @@ public class HUD : MonoBehaviour {
     public GameObject MessagePanel;
     public Text MessageTitle;
     public Text MessageBody;
+    protected bool currentlyIsSpecial = false;
 
     public Text ShiftTimer;
 
@@ -83,16 +84,29 @@ public class HUD : MonoBehaviour {
         totalScoreUIObject.SetValue(GameManager.Self.PlayerScore);
     }
 
-    public void SetMessage(bool value)
+    public void SetMessage(bool value, bool isSpecial = false)
     {
         MessagePanel.SetActive(value);
     }
 
-    public void SetMessage(bool value, string title, string body)
+    public void SetMessage(bool value, string title, string body, bool isSpecial = false)
     {
         MessageTitle.text = title;
         MessageBody.text = body;
+        //HandleMessageSpecialness(isSpecial);
         MessagePanel.SetActive(value);
+    }
+
+    protected virtual void HandleMessageSpecialness(bool isSpecial)
+    {
+        //if(isSpecial && !currentlyIsSpecial)
+        //{
+            
+        //}
+        //else if(!isSpecial && currentlyIsSpecial)
+        //{
+
+        //}
     }
 
     public void UpdateShiftTimer(float value)

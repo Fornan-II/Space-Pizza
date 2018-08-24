@@ -7,6 +7,12 @@ public class IZ_DeliveryZone : InteractZone {
     public int orderID = -1;
     protected bool _awaitingDelivery = true;
 
+    protected override void Start()
+    {
+        base.Start();
+        GameManager.Self.indicator.AddDeliveryZone(this);
+    }
+
     protected override void HasSuccessfullyInteracted()
     {
         if(_awaitingDelivery)
@@ -45,6 +51,7 @@ public class IZ_DeliveryZone : InteractZone {
                 sp.SetHasPizza(false);
             }
         }
+        GameManager.Self.indicator.RemoveDeliveryZone(this);
         Destroy(gameObject);
     }
 }
