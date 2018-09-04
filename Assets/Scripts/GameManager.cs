@@ -106,7 +106,7 @@ public class GameManager : MonoBehaviour {
 
     protected virtual IEnumerator WaitToReturnToMainMenu()
     {
-        while(!Input.anyKeyDown)
+        while (!Input.GetButtonDown("Fire2"))
         {
             yield return null;
         }

@@ -6,7 +6,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 public static class ScoreManager {
 
-    private static string _scoreFilePath = "score.binary";
+    private static string _scoreFilePath = Application.persistentDataPath + "/score.binary";
     private static ScoreHolder score = new ScoreHolder();
     public static int HighScore
     {

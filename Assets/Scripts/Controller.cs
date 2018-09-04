@@ -23,43 +23,40 @@ public class Controller : MonoBehaviour {
         {
             HandleInput();
             mainCamManager.TrackingPosition = possessedPawn.transform.position;
-            Debug.Log(activeInputType);
         }
     }
 
     protected virtual void HandleInput()
     {
-        if (activeInputType == InputType.MOUSE_AND_KEYBOARD)
+        Touch[] prevTouches = Input.touches;
+        
+        bool isPressing = false;
+        bool foundTwoTap = false;
+
+        
+        if(prevTouches.Length > 0)
         {
-            possessedPawn.HandleLeftShift(Input.GetButton("Fire1"));
-            possessedPawn.HandleSpacebar(Input.GetButton("Fire2"));
-
-            Vector3 mousePos = Input.mousePosition;
-            mousePos.z = possessedPawn.transform.position.z;
-            possessedPawn.HandleMousePosition(Camera.main.ScreenToWorldPoint(mousePos));
-
-            if(Input.GetAxisRaw("Horizontal") > float.Epsilon || Input.GetAxisRaw("Vertical") > float.Epsilon)
+            isPressing = true;
+            foreach (Touch t in prevTouches)
             {
-                activeInputType = InputType.GAMEPAD;
+                if(t.tapCount >= 2)
+                {
+                    foundTwoTap = true;
+                }
             }
         }
-        else if(activeInputType == InputType.GAMEPAD)
+
+        if (GameManager.Self)
         {
-            possessedPawn.HandleLeftShift(Input.GetButton("Fire1"));
-            possessedPawn.HandleSpacebar(Input.GetButton("Fire2"));
-
-            Vector2 locationToPointAt = possessedPawn.transform.position;
-            Vector2 inputVector = new Vector2(Input.GetAxisRaw("Horizontal"), -1f * Input.GetAxisRaw("Vertical"));
-            if(inputVector.sqrMagnitude > float.Epsilon)
-            {
-                possessedPawn.HandleMousePosition(locationToPointAt + GetProperInputVector(inputVector));
-            }
-
-            if(Input.GetAxis("Mouse X") > float.Epsilon || Input.GetAxis("Mouse Y") > float.Epsilon)
-            {
-                activeInputType = InputType.MOUSE_AND_KEYBOARD;
-            }
+            //GameManager.Self.playerHUD.SetMessage(true, "Debug", "" + foundTwoTapEver);
         }
+
+        possessedPawn.HandleLeftShift(foundTwoTap);
+        possessedPawn.HandleSpacebar(isPressing);
+
+        Vector3 mousePos = Input.mousePosition;
+        mousePos.z = possessedPawn.transform.position.z;
+        possessedPawn.HandleMousePosition(Camera.main.ScreenToWorldPoint(mousePos));
     }
 
     protected virtual Vector2 GetProperInputVector(Vector2 i)
