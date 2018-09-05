@@ -6,10 +6,11 @@ public class Controller : MonoBehaviour {
 
     public Pawn possessedPawn;
     [HideInInspector]public bool usingMouse = true;
+    public float android_brakePressRadius = 4.0f;
 
     protected CameraManager mainCamManager;
 
-    protected enum InputType { MOUSE_AND_KEYBOARD, GAMEPAD, TOUCHSCREEN }
+    public enum InputType { MOUSE_AND_KEYBOARD, GAMEPAD, TOUCHSCREEN }
     protected InputType activeInputType = InputType.MOUSE_AND_KEYBOARD;
 
 	// Use this for initialization
@@ -68,27 +69,27 @@ public class Controller : MonoBehaviour {
             Touch[] prevTouches = Input.touches;
 
             bool isPressing = false;
-            bool foundTwoTap = false;
+            bool isBraking = false;
 
 
             if (prevTouches.Length > 0)
             {
                 isPressing = true;
-                foreach (Touch t in prevTouches)
-                {
-                    if (t.tapCount >= 2)
-                    {
-                        foundTwoTap = true;
-                    }
-                }
             }
 
-            possessedPawn.HandleLeftShift(foundTwoTap);
-            possessedPawn.HandleSpacebar(isPressing);
-
             Vector3 mousePos = Input.mousePosition;
+            mousePos = Camera.main.ScreenToWorldPoint(mousePos);
             mousePos.z = possessedPawn.transform.position.z;
-            possessedPawn.HandleMousePosition(Camera.main.ScreenToWorldPoint(mousePos));
+            possessedPawn.HandleMousePosition(mousePos);
+
+            Debug.Log("Pawn @ " + possessedPawn.transform.position + "\nMouse @ " + mousePos);
+            if(isPressing && (Vector3.Distance(possessedPawn.transform.position, mousePos) <= android_brakePressRadius))
+            {
+                isBraking = true;
+                isPressing = false;
+            }
+            possessedPawn.HandleLeftShift(isBraking);
+            possessedPawn.HandleSpacebar(isPressing);
         }
     }
 
@@ -118,5 +119,10 @@ public class Controller : MonoBehaviour {
         inputVector /= maxedVector.magnitude;
 
         return new Vector2(inputVector.x, inputVector.y);
+    }
+
+    public InputType GetInputType()
+    {
+        return activeInputType;
     }
 }

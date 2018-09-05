@@ -55,12 +55,11 @@ public class SpaceshipPawn : Pawn {
     public override void HandleSpacebar(bool value)
     {
         _isBoosting = value;
-        _sf.SetFireTo(value);
     }
 
     public override void HandleLeftShift(bool value)
     {
-        _tryingToBreak = value;
+        _isBraking = value;
     }
     #endregion
 
@@ -73,11 +72,13 @@ public class SpaceshipPawn : Pawn {
 
     protected virtual void SetShipVelocity()
     {
+        _sf.SetFireTo(false);
+
         if (_isBoosting)
         {
             Vector2 newVelocity = Vector2.Lerp(transform.up * boostForce, _rb.velocity, inertia);
             _rb.velocity = newVelocity;
-            _isBraking = false;
+            _sf.SetFireTo(true);
         }
         else if (_isBraking)
         {
@@ -88,10 +89,6 @@ public class SpaceshipPawn : Pawn {
         {
             Vector2 newVelocity = Vector2.Lerp(Vector2.zero, _rb.velocity, driftInertia);
             _rb.velocity = newVelocity;
-        }
-        if (_tryingToBreak)
-        {
-            _isBraking = true;
         }
     }
 
