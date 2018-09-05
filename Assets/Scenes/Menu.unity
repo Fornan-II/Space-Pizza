@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.3731193, g: 0.38073996, b: 0.35872698, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -171,7 +171,7 @@ RectTransform:
   m_GameObject: {fileID: 99585771}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.0000001, y: 1.0000001, z: 1.0000001}
+  m_LocalScale: {x: 1.12, y: 1.12, z: 1.12}
   m_Children:
   - {fileID: 1791754467}
   - {fileID: 1666367982}
@@ -568,7 +568,7 @@ MonoBehaviour:
   m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 800, y: 500}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 1
   m_PhysicalUnit: 3
@@ -870,6 +870,7 @@ GameObject:
   - component: {fileID: 425590785}
   - component: {fileID: 425590787}
   - component: {fileID: 425590786}
+  - component: {fileID: 425590788}
   m_Layer: 5
   m_Name: Controls
   m_TagString: Untagged
@@ -885,7 +886,7 @@ RectTransform:
   m_GameObject: {fileID: 425590784}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.0000001, y: 1.0000001, z: 1.0000001}
+  m_LocalScale: {x: 1.12, y: 1.12, z: 1.12}
   m_Children:
   - {fileID: 1857217871}
   - {fileID: 137882136}
@@ -932,6 +933,20 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 425590784}
+--- !u!114 &425590788
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 425590784}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b77460ea260af440a8848961f4e8cd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerController: {fileID: 1431457328}
+  BodyLeft: {fileID: 1992309629}
+  BodyRight: {fileID: 1311643857}
 --- !u!1 &447976378
 GameObject:
   m_ObjectHideFlags: 0
@@ -1731,6 +1746,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   possessedPawn: {fileID: 532537278}
   usingMouse: 1
+  android_brakePressRadius: 4
+  activeInputType: 0
 --- !u!4 &1431457329
 Transform:
   m_ObjectHideFlags: 0
@@ -1880,7 +1897,7 @@ Camera:
   m_GameObject: {fileID: 1431763123}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
+  m_ClearFlags: 3
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
@@ -2634,7 +2651,7 @@ RectTransform:
   m_GameObject: {fileID: 1968566116}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.12, y: 1.12, z: 1.12}
   m_Children:
   - {fileID: 404321368}
   - {fileID: 742068821}

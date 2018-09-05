@@ -11,7 +11,7 @@ public class Controller : MonoBehaviour {
     protected CameraManager mainCamManager;
 
     public enum InputType { MOUSE_AND_KEYBOARD, GAMEPAD, TOUCHSCREEN }
-    protected InputType activeInputType = InputType.MOUSE_AND_KEYBOARD;
+    public InputType activeInputType = InputType.MOUSE_AND_KEYBOARD;
 
 	// Use this for initialization
 	void Start () {
