@@ -17,6 +17,7 @@ public class SpaceshipPawn : Pawn {
     //Member
     protected Rigidbody2D _rb;
     protected Vector3 _desiredDirection;
+    protected bool _tryingToBreak = false;
     protected bool _isBraking = false;
     protected bool _isBoosting = false;
     protected ShipFire _sf;
@@ -59,7 +60,7 @@ public class SpaceshipPawn : Pawn {
 
     public override void HandleLeftShift(bool value)
     {
-        _isBraking = value;
+        _tryingToBreak = value;
     }
     #endregion
 
@@ -72,10 +73,11 @@ public class SpaceshipPawn : Pawn {
 
     protected virtual void SetShipVelocity()
     {
-        if(_isBoosting)
+        if (_isBoosting)
         {
             Vector2 newVelocity = Vector2.Lerp(transform.up * boostForce, _rb.velocity, inertia);
             _rb.velocity = newVelocity;
+            _isBraking = false;
         }
         else if (_isBraking)
         {
@@ -86,6 +88,10 @@ public class SpaceshipPawn : Pawn {
         {
             Vector2 newVelocity = Vector2.Lerp(Vector2.zero, _rb.velocity, driftInertia);
             _rb.velocity = newVelocity;
+        }
+        if (_tryingToBreak)
+        {
+            _isBraking = true;
         }
     }
 
