@@ -9,6 +9,7 @@ public class IZ_RestaurantZone : InteractZone
 
     protected override void HasSuccessfullyInteracted()
     {
+        base.HasSuccessfullyInteracted();
         if (GameManager.Self.ActiveDeliveries.Count == 0)
         {
             GenerateDeliveries();

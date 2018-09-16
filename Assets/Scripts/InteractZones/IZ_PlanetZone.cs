@@ -14,6 +14,7 @@ public class IZ_PlanetZone : InteractZone
 
     protected override void HasSuccessfullyInteracted()
     {
+        base.HasSuccessfullyInteracted();
         //These 3 lines probably want to be in a coroutine in a loading level thing - check Brackeys
         bool pizzaForHere = false;
         foreach(Pizza p in GameManager.Self.ActiveDeliveries)
@@ -74,7 +75,10 @@ public class IZ_PlanetZone : InteractZone
         }
 
         GameManager.Self.runTimers = false;
-        GameManager.Self.player.possessedPawn.transform.position = new Vector3(0f, 0f, GameManager.Self.player.possessedPawn.transform.position.z);
+        if(GameManager.Self.player.possessedPawn)
+        {
+            GameManager.Self.player.possessedPawn.transform.position = new Vector3(0f, 0f, GameManager.Self.player.possessedPawn.transform.position.z);
+        }
         ProcRoom pr = _seedRoom.GetComponent<ProcRoom>();
         pr.DestroyRoom();
         GameManager.Self.runTimers = true;

@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour {
     public HUD playerHUD;
     public Controller player;
     public PizzaIndicator indicator;
+    public InteractIndicator interactionIndicator;
     protected static float pizzaValueDecayInterval = 1.0f;
     public bool runTimers = true;
 

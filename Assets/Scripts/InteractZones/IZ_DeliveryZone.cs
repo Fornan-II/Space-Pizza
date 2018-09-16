@@ -15,7 +15,8 @@ public class IZ_DeliveryZone : InteractZone {
 
     protected override void HasSuccessfullyInteracted()
     {
-        if(_awaitingDelivery)
+        base.HasSuccessfullyInteracted();
+        if (_awaitingDelivery)
         {
             for (int i = 0; i < GameManager.Self.ActiveDeliveries.Count; i++)
             {
