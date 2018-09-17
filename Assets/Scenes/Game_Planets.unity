@@ -1205,6 +1205,7 @@ MonoBehaviour:
   timeToOpen: 0.3
   ableToInteractPopSize: 1.2
   timeToPop: 0.1
+  interactTimeOut: 0.1
 --- !u!1001 &429621946
 Prefab:
   m_ObjectHideFlags: 0

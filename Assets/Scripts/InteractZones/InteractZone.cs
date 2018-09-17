@@ -29,18 +29,9 @@ public class InteractZone : MonoBehaviour {
         }
     }
 
-    protected virtual void OnTriggerExit2D(Collider2D collision)
-    {
-        SpaceshipPawn SP = collision.GetComponent<SpaceshipPawn>();
-        if (SP)
-        {
-            GameManager.Self.interactionIndicator.InInteractZone(false);
-        }
-    }
-
     //Override this on the subsequent types.
     protected virtual void HasSuccessfullyInteracted()
     {
-        GameManager.Self.interactionIndicator.IsInteracting(true);
+
     }
 }

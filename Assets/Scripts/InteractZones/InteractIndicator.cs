@@ -9,11 +9,13 @@ public class InteractIndicator : MonoBehaviour {
     public float timeToOpen = 0.3f;
     public float ableToInteractPopSize;
     public float timeToPop = 0.1f;
+    public float interactTimeOut = 0.3f;
 
     protected SpriteRenderer _sr;
     protected bool _isOpen = false;
     protected bool _isInteracting = false;
     protected bool _canInteract = false;
+    protected float _interactRemainingTimeOut = 0.0f;
 
     // Use this for initialization
     void Start ()
@@ -23,9 +25,37 @@ public class InteractIndicator : MonoBehaviour {
         gameObject.transform.localScale = Vector3.zero;
 	}
 
+    protected virtual void Update()
+    {
+        if(GameManager.Self.player.possessedPawn && _canInteract)
+        {
+            SpaceshipPawn sp = GameManager.Self.player.possessedPawn as SpaceshipPawn;
+            if(sp)
+            {
+                if(sp.AbleToInteract)
+                {
+                    IsInteracting(true);
+                }
+            }
+        }
+
+        if(_interactRemainingTimeOut > 0.0f)
+        {
+            _interactRemainingTimeOut -= Time.deltaTime;
+        }
+        else if(_canInteract)
+        {
+            InInteractZone(false);
+        }
+    }
+
     public virtual void InInteractZone(bool value)
     {
         _canInteract = value;
+        if(_canInteract)
+        {
+            _interactRemainingTimeOut = interactTimeOut;
+        }
 
         if(_canInteract && !_isOpen)
         {
