@@ -12,10 +12,26 @@ public class GameManager : MonoBehaviour {
     public InteractIndicator interactionIndicator;
     protected static float pizzaValueDecayInterval = 1.0f;
     public bool runTimers = true;
+    public bool DoWorldLooping
+    {
+        get
+        {
+            if(!worldLooper) { return false; }
+            return worldLooper.DoWorldLooping;
+        }
+        set
+        {
+            if(worldLooper)
+            {
+                worldLooper.DoWorldLooping = value;
+            }
+        }
+    }
 
     public float TotalShiftTime = 180.0f;
     protected float _elapsedShiftTime = 0.0f;
     public float TimeRemaining { get { return TotalShiftTime - _elapsedShiftTime; } }
+    public WorldLooping worldLooper;
 
     //public UI GameUI;
 

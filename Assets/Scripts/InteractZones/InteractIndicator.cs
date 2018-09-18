@@ -92,12 +92,13 @@ public class InteractIndicator : MonoBehaviour {
         _isOpen = true;
         float timeElapsed = 0.0f;
         float newScale;
+        float starterScale = transform.localScale.x;
 
-        while(timeElapsed < timeToOpen)
+        while (timeElapsed < timeToOpen)
         {
             yield return null;
             timeElapsed += Time.deltaTime;
-            newScale = Mathf.Lerp(0.0f, 1.0f, timeElapsed / timeToOpen);
+            newScale = Mathf.Lerp(starterScale, 1.0f, timeElapsed / timeToOpen);
             gameObject.transform.localScale = new Vector3(newScale, newScale, newScale);
         }
     }
@@ -107,12 +108,13 @@ public class InteractIndicator : MonoBehaviour {
         _isOpen = false;
         float timeElapsed = 0.0f;
         float newScale;
+        float starterScale = transform.localScale.x;
 
         while (timeElapsed < timeToOpen)
         {
             yield return null;
             timeElapsed += Time.deltaTime;
-            newScale = Mathf.Lerp(1.0f, 0.0f, timeElapsed / timeToOpen);
+            newScale = Mathf.Lerp(starterScale, 0.0f, timeElapsed / timeToOpen);
             gameObject.transform.localScale = new Vector3(newScale, newScale, newScale);
         }
     }
@@ -125,12 +127,13 @@ public class InteractIndicator : MonoBehaviour {
         float timeElapsed = 0.0f;
         float newScale;
         float halfPop = timeToPop;
+        float starterScale = transform.localScale.x;
 
-        while(timeElapsed < halfPop)
+        while (timeElapsed < halfPop)
         {
             yield return null;
             timeElapsed += Time.deltaTime;
-            newScale = Mathf.Lerp(1.0f, ableToInteractPopSize, timeElapsed / halfPop);
+            newScale = Mathf.Lerp(starterScale, ableToInteractPopSize, timeElapsed / halfPop);
             gameObject.transform.localScale = new Vector3(newScale, newScale, newScale);
         }
 

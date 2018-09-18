@@ -61,6 +61,7 @@ public class IZ_PlanetZone : InteractZone
         }
 
         //Post-Generation Actions;
+        GameManager.Self.DoWorldLooping = false;
         GameManager.Self.player.possessedPawn.transform.position = new Vector3(spawnCoord.x, spawnCoord.y, GameManager.Self.player.possessedPawn.transform.position.z);
         GameManager.Self.runTimers = true;
         StartCoroutine(WaitForPlayerToFinishLevel());
@@ -77,6 +78,11 @@ public class IZ_PlanetZone : InteractZone
         GameManager.Self.runTimers = false;
         if(GameManager.Self.player.possessedPawn)
         {
+            GameManager.Self.DoWorldLooping = true;
+            if(GameManager.Self.worldLooper)
+            {
+                GameManager.Self.worldLooper.transform.position = Vector3.zero;
+            }
             GameManager.Self.player.possessedPawn.transform.position = new Vector3(0f, 0f, GameManager.Self.player.possessedPawn.transform.position.z);
         }
         ProcRoom pr = _seedRoom.GetComponent<ProcRoom>();

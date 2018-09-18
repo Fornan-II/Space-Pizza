@@ -10,13 +10,13 @@ public class FloatingBehavior : MonoBehaviour {
 
     protected virtual void Start()
     {
-        _baseYCoordinate = transform.position.y;
+        _baseYCoordinate = transform.localPosition.y;
     }
 
     protected virtual void FixedUpdate()
     {
-        Vector3 newPosition = transform.position;
+        Vector3 newPosition = transform.localPosition;
         newPosition.y = _baseYCoordinate + maxAmplitude * Mathf.Sin(bobSpeed * Time.timeSinceLevelLoad);
-        transform.position = newPosition;
+        transform.localPosition = newPosition;
     }
 }
