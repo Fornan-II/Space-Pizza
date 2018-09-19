@@ -91,7 +91,7 @@ public class Controller : MonoBehaviour {
             possessedPawn.HandleLeftShift(isBraking);
             possessedPawn.HandleSpacebar(isPressing);
 
-            if(isPressing)
+            if(isPressing | isBraking)
             {
                 tappingIcon.IndicateTapAt(mousePos, isBraking);
             }

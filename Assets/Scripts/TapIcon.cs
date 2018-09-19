@@ -15,7 +15,8 @@ public class TapIcon : MonoBehaviour {
 
     private void Start()
     {
-        
+        _anim = gameObject.GetComponent<Animator>();
+        _sr = gameObject.GetComponent<SpriteRenderer>();
     }
 
     private void Update()
@@ -23,7 +24,7 @@ public class TapIcon : MonoBehaviour {
         if(_tapTimeOutTimer > 0.0f)
         {
             _tapTimeOutTimer -= Time.deltaTime;
-            if(_tapTimeOutTimer <= 0.0f)
+            if(_tapTimeOutTimer <= 0.0f && _anim)
             {
                 _anim.SetBool("Active", false);
             }
@@ -32,16 +33,27 @@ public class TapIcon : MonoBehaviour {
 
     public void IndicateTapAt(Vector2 position, bool isBraking)
     {
-        transform.position = new Vector3(position.x, position.y, transform.position.z);
-        _anim.SetBool("Active", true);
-        _tapTimeOutTimer = tapTimeOut;
-        if(isBraking)
+        if(Time.timeScale == 0.0f)
         {
-            _sr.color = brakingColor;
+            return;
         }
-        else
+
+        transform.position = new Vector3(position.x, position.y, transform.position.z);
+        if (_anim)
         {
-            _sr.color = normalColor;
+            _anim.SetBool("Active", true);
+        }
+        _tapTimeOutTimer = tapTimeOut;
+        if (_sr)
+        {
+            if (isBraking)
+            {
+                _sr.color = brakingColor;
+            }
+            else
+            {
+                _sr.color = normalColor;
+            }
         }
     }
 }
