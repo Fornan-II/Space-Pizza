@@ -5,6 +5,7 @@ using UnityEngine;
 public class Controller : MonoBehaviour {
 
     public Pawn possessedPawn;
+    public TapIcon tappingIcon;
     [HideInInspector]public bool usingMouse = true;
     public float android_brakePressRadius = 4.0f;
 
@@ -82,7 +83,6 @@ public class Controller : MonoBehaviour {
             mousePos.z = possessedPawn.transform.position.z;
             possessedPawn.HandleMousePosition(mousePos);
 
-            Debug.Log("Pawn @ " + possessedPawn.transform.position + "\nMouse @ " + mousePos);
             if(isPressing && (Vector3.Distance(possessedPawn.transform.position, mousePos) <= android_brakePressRadius))
             {
                 isBraking = true;
@@ -90,6 +90,11 @@ public class Controller : MonoBehaviour {
             }
             possessedPawn.HandleLeftShift(isBraking);
             possessedPawn.HandleSpacebar(isPressing);
+
+            if(isPressing)
+            {
+                tappingIcon.IndicateTapAt(mousePos, isBraking);
+            }
         }
     }
 
