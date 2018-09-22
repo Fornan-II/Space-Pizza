@@ -8,6 +8,7 @@ public class Controller : MonoBehaviour {
     public TapIcon tappingIcon;
     [HideInInspector]public bool usingMouse = true;
     public float android_brakePressRadius = 4.0f;
+    public bool letControlPawn = true;
 
     protected CameraManager mainCamManager;
 
@@ -34,6 +35,8 @@ public class Controller : MonoBehaviour {
 
     protected virtual void HandleInput()
     {
+        if(!letControlPawn) { return; }
+
         if (activeInputType == InputType.MOUSE_AND_KEYBOARD)
         {
             possessedPawn.HandleLeftShift(Input.GetButton("Fire1"));

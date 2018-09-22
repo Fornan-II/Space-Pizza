@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour {
     public Controller player;
     public PizzaIndicator indicator;
     public InteractIndicator interactionIndicator;
+    public LevelTransitioner levelTransitioner;
     protected static float pizzaValueDecayInterval = 1.0f;
     public bool runTimers = true;
     public bool DoWorldLooping

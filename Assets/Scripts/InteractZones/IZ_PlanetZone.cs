@@ -36,6 +36,8 @@ public class IZ_PlanetZone : InteractZone
     {
         //Generation Setup
         GameManager.Self.runTimers = false;
+        GameManager.Self.player.letControlPawn = false;
+        GameManager.Self.levelTransitioner.TransitionScreen(false);
         _isGenerating = true;
 
         //Generation Proper
@@ -62,9 +64,30 @@ public class IZ_PlanetZone : InteractZone
 
         //Post-Generation Actions;
         GameManager.Self.DoWorldLooping = false;
-        GameManager.Self.player.possessedPawn.transform.position = new Vector3(spawnCoord.x, spawnCoord.y, GameManager.Self.player.possessedPawn.transform.position.z);
-        GameManager.Self.runTimers = true;
+
+        StartCoroutine(WaitToTeleportPlayerTo(spawnCoord));
+
         StartCoroutine(WaitForPlayerToFinishLevel());
+    }
+
+    protected virtual IEnumerator WaitToTeleportPlayerTo(Vector2 position)
+    {
+        while(GameManager.Self.levelTransitioner.AnimIsPlaying)
+        {
+            yield return null;
+        }
+
+        Debug.Log("this ever happens");
+        if(GameManager.Self.player.possessedPawn)
+        {
+            Debug.Log("TP to " + position);
+            GameManager.Self.player.possessedPawn.transform.position = new Vector3(position.x, position.y, GameManager.Self.player.possessedPawn.transform.position.z);
+        }
+
+        GameManager.Self.runTimers = true;
+        GameManager.Self.player.letControlPawn = true;
+        GameManager.Self.levelTransitioner.TransitionScreen(true);
+
         _isGenerating = false;
     }
 
@@ -76,6 +99,9 @@ public class IZ_PlanetZone : InteractZone
         }
 
         GameManager.Self.runTimers = false;
+        GameManager.Self.player.letControlPawn = false;
+        GameManager.Self.levelTransitioner.TransitionScreen(false);
+
         if(GameManager.Self.player.possessedPawn)
         {
             GameManager.Self.DoWorldLooping = true;
@@ -83,10 +109,15 @@ public class IZ_PlanetZone : InteractZone
             {
                 GameManager.Self.worldLooper.transform.position = Vector3.zero;
             }
-            GameManager.Self.player.possessedPawn.transform.position = new Vector3(0f, 0f, GameManager.Self.player.possessedPawn.transform.position.z);
         }
+
+        StartCoroutine(WaitToTeleportPlayerTo(Vector2.zero));
+
         ProcRoom pr = _seedRoom.GetComponent<ProcRoom>();
+        while(GameManager.Self.levelTransitioner.AnimIsPlaying)
+        {
+            yield return null;
+        }
         pr.DestroyRoom();
-        GameManager.Self.runTimers = true;
     }
 }
