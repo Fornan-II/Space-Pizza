@@ -12,6 +12,9 @@ public class IZ_PlanetZone : InteractZone
     public List<IZ_DeliveryZone> activeDeliveryPOIs = new List<IZ_DeliveryZone>();
     protected bool _isGenerating = false;
 
+    protected bool _showGenerationDebug = false;
+    protected float _debugTimeToGen;
+
     protected override void HasSuccessfullyInteracted()
     {
         base.HasSuccessfullyInteracted();
@@ -38,6 +41,12 @@ public class IZ_PlanetZone : InteractZone
         GameManager.Self.runTimers = false;
         GameManager.Self.player.letControlPawn = false;
         GameManager.Self.levelTransitioner.TransitionScreen(false);
+        if(_showGenerationDebug)
+        {
+            Debug.Log("Starting " + expansiveness + " expense generation...");
+            _debugTimeToGen = 0.0f;
+        }
+        
         _isGenerating = true;
 
         //Generation Proper
@@ -63,6 +72,7 @@ public class IZ_PlanetZone : InteractZone
         }
 
         //Post-Generation Actions;
+        if (_showGenerationDebug) { Debug.Log("... generation done.\nThis took " + _debugTimeToGen + " seconds."); }
         GameManager.Self.DoWorldLooping = false;
 
         StartCoroutine(WaitToTeleportPlayerTo(spawnCoord));
@@ -77,10 +87,8 @@ public class IZ_PlanetZone : InteractZone
             yield return null;
         }
 
-        Debug.Log("this ever happens");
         if(GameManager.Self.player.possessedPawn)
         {
-            Debug.Log("TP to " + position);
             GameManager.Self.player.possessedPawn.transform.position = new Vector3(position.x, position.y, GameManager.Self.player.possessedPawn.transform.position.z);
             Rigidbody2D rb = GameManager.Self.player.possessedPawn.GetComponent<Rigidbody2D>();
             if(rb) { rb.velocity = Vector2.zero; }
@@ -121,5 +129,13 @@ public class IZ_PlanetZone : InteractZone
             yield return null;
         }
         pr.DestroyRoom();
+    }
+
+    private void Update()
+    {
+        if(_isGenerating && _showGenerationDebug)
+        {
+            _debugTimeToGen += Time.deltaTime;
+        }
     }
 }

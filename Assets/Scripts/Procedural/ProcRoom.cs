@@ -24,7 +24,7 @@ public class ProcRoom : MonoBehaviour {
             poiStorage.AddRange(MyPOISpawns);
             foreach (RoomSpawnNodes rsn in MyRoomSpawnNodes)
             {
-                yield return null;
+                //yield return null;
                 if (rsn.potency >= 1)
                 {
                     yield return rsn.GenerateNewRoom(tileSet, limits, poiStorage);
