@@ -6,8 +6,19 @@ public class LevelTransitioner : MonoBehaviour {
 
     protected Animator _anim;
 
-    protected bool _animIsPlaying = false;
-    public bool AnimIsPlaying { get { return _animIsPlaying; } }
+    public enum TransitionState
+    {
+        OPEN,
+        CLOSING,
+        CLOSED,
+        OPENNING
+    }
+    protected TransitionState _currentState;
+    public TransitionState CurrentState { get { return _currentState; } }
+
+    public bool AnimIsPlaying { get { return (_currentState == TransitionState.OPENNING) || (_currentState == TransitionState.CLOSING); } }
+    public bool IsOpenOrOpenning { get { return (_currentState == TransitionState.OPEN) || (_currentState == TransitionState.OPENNING); } }
+    public bool IsClosedOrClosing { get { return (_currentState == TransitionState.CLOSED) || (_currentState == TransitionState.CLOSING); } }
 
     protected virtual void Start()
     {
@@ -20,14 +31,28 @@ public class LevelTransitioner : MonoBehaviour {
         {
             if(_anim.GetBool("open") != open)
             {
-                _animIsPlaying = true;
                 _anim.SetBool("open", open);
+                if(open)
+                {
+                    _currentState = TransitionState.OPENNING;
+                }
+                else
+                {
+                    _currentState = TransitionState.CLOSING;
+                }
             }
         }
     }
 
     protected virtual void AnimDonePlaying()
     {
-        _animIsPlaying = false;
+        if(_currentState == TransitionState.OPENNING)
+        {
+            _currentState = TransitionState.OPEN;
+        }
+        else if(_currentState == TransitionState.CLOSING)
+        {
+            _currentState = TransitionState.CLOSED;
+        }
     }
 }

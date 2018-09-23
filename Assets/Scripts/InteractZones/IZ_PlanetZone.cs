@@ -82,6 +82,8 @@ public class IZ_PlanetZone : InteractZone
         {
             Debug.Log("TP to " + position);
             GameManager.Self.player.possessedPawn.transform.position = new Vector3(position.x, position.y, GameManager.Self.player.possessedPawn.transform.position.z);
+            Rigidbody2D rb = GameManager.Self.player.possessedPawn.GetComponent<Rigidbody2D>();
+            if(rb) { rb.velocity = Vector2.zero; }
         }
 
         GameManager.Self.runTimers = true;
@@ -99,7 +101,7 @@ public class IZ_PlanetZone : InteractZone
         }
 
         GameManager.Self.runTimers = false;
-        GameManager.Self.player.letControlPawn = false;
+        //GameManager.Self.player.letControlPawn = false;
         GameManager.Self.levelTransitioner.TransitionScreen(false);
 
         if(GameManager.Self.player.possessedPawn)

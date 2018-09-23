@@ -26,7 +26,7 @@ public class PizzaIndicator : MonoBehaviour {
 
     protected virtual void FixedUpdate()
     {
-        if (existingDeliveryZones.Count > 0 && useIndicator && !GameManager.Self.levelTransitioner.AnimIsPlaying)
+        if (existingDeliveryZones.Count > 0 && useIndicator && GameManager.Self.levelTransitioner.IsOpenOrOpenning)
         {
             if(!_sr.enabled)
             {
